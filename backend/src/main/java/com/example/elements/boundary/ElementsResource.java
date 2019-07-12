@@ -1,15 +1,23 @@
 package com.example.elements.boundary;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 @Path("elements")
+@Stateless
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class ElementsResource {
 
+    @Inject
+    Elements service;
+
     @GET
-    public Response get() {
-        return Response.ok("Hello, World!").build();
+    @Path("{number}")
+    public Response get(@PathParam("number") int number) {
+        return Response.ok(service.get(number)).build();
     }
 
 }
