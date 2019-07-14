@@ -1,12 +1,17 @@
 package com.example.elements.entity;
 
 import java.math.BigDecimal;
+import javax.persistence.*;
 
+@Entity
+@Access(AccessType.FIELD)
 public class Element {
 
+    @Id
     private int number;
     private String symbol;
     private String name;
+    @Column(precision = 32, scale = 16)
     private BigDecimal weight;
 
     public Element() {
