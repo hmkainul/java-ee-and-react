@@ -1,36 +1,36 @@
 package com.example.elements.boundary;
 
 import com.example.elements.entity.Element;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Stateless
 public class Elements {
 
+    @PersistenceContext
+    EntityManager em;
+
     public Element get(int number) {
-        return new Element(
-            1,
-            "H",
-            "Hydrogen",
-            new BigDecimal("1.008")
-        );
+        return em.find(Element.class, number);
     }
 
     public List<Element> getAll() {
-        List<Element> result = new ArrayList<>();
-        result.add(get(1));
-        return result;
+        return em.createQuery("SELECT e FROM Element e", Element.class)
+            .getResultList();
     }
 
     public Element save(Element e) {
-        return e;
+        return em.merge(e);
     }
 
     public boolean delete(int number) {
-        return false;
+        Element element = get(number);
+        if (element == null)
+            return false;
+        em.remove(get(number));
+        return true;
     }
 
 }
