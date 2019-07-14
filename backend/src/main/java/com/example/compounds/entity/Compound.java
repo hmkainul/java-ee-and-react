@@ -2,11 +2,28 @@ package com.example.compounds.entity;
 
 import java.math.BigDecimal;
 import java.util.*;
+import javax.persistence.*;
 import com.example.elements.entity.Element;
 
+@Entity
+@Access(AccessType.FIELD)
 public class Compound {
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @OneToMany
+    @JoinColumn(name = "compound_id")
     private List<Part> parts = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public List<Part> getParts() {
         return parts;
