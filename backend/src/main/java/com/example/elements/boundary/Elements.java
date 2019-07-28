@@ -1,10 +1,10 @@
 package com.example.elements.boundary;
 
-import com.example.elements.entity.Element;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import com.example.elements.entity.Element;
 
 @Stateless
 public class Elements {
@@ -17,7 +17,8 @@ public class Elements {
     }
 
     public List<Element> getAll() {
-        return em.createQuery("SELECT e FROM Element e", Element.class)
+        return em.createQuery(
+            "SELECT e FROM Element e ORDER BY e.number", Element.class)
             .getResultList();
     }
 
