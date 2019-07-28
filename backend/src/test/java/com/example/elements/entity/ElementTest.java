@@ -14,9 +14,10 @@ public class ElementTest {
     @Test
     public void createElement() {
         Element e = new Element(NUMBER, SYMBOL, NAME, WEIGHT);
-        assertEquals(e.getNumber(), NUMBER);
-        assertEquals(e.getSymbol(), SYMBOL);
-        assertEquals(e.getName(), NAME);
-        assertEquals(e.getWeight(), WEIGHT);
+        assertEquals(NUMBER, e.getNumber());
+        assertEquals(SYMBOL, e.getSymbol());
+        assertEquals(NAME, e.getName());
+        assertEquals(WEIGHT, e.getWeight());
     }
+
 }
