@@ -41,4 +41,13 @@ public class ElementsResource {
             .build();
     }
 
+    @DELETE
+    @Path("{number}")
+    public Response delete(@PathParam("{number}") int number) {
+        service.delete(number);
+        return Response
+            .noContent()
+            .build();
+    }
+
 }
