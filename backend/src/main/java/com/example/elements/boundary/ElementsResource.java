@@ -33,4 +33,12 @@ public class ElementsResource {
             .build();
     }
 
+    @POST
+    public Response save(Element element) {
+        Element result = service.save(element);
+        return Response
+            .ok(result)
+            .build();
+    }
+
 }
