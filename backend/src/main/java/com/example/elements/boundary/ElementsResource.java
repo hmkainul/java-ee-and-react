@@ -43,7 +43,7 @@ public class ElementsResource {
 
     @DELETE
     @Path("{number}")
-    public Response delete(@PathParam("{number}") int number) {
+    public Response delete(@PathParam("number") int number) {
         service.delete(number);
         return Response
             .noContent()
