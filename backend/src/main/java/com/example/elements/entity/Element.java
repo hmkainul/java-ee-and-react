@@ -1,6 +1,7 @@
 package com.example.elements.entity;
 
 import java.math.BigDecimal;
+import javax.json.bind.annotation.JsonbNumberFormat;
 import javax.persistence.*;
 
 @Entity
@@ -9,9 +10,13 @@ public class Element {
 
     @Id
     private int number;
+
     private String symbol;
+
     private String name;
+
     @Column(precision = 32, scale = 16)
+    @JsonbNumberFormat("0.0###############")
     private BigDecimal weight;
 
     public Element() {
