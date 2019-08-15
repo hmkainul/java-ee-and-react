@@ -3,6 +3,7 @@ package com.example.elements.boundary;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import com.example.elements.entity.Element;
@@ -34,7 +35,7 @@ public class ElementsResource {
     }
 
     @POST
-    public Response save(Element element) {
+    public Response save(@Valid Element element) {
         Element result = service.save(element);
         return Response
             .ok(result)
