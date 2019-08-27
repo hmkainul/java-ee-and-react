@@ -1,8 +1,9 @@
 package com.example;
 
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.client.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
 import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
@@ -36,7 +37,23 @@ public class SystemTest {
         return target
             .path(path)
             .request(MediaType.APPLICATION_JSON)
+            .headers(headers())
             .get(JsonObject.class);
+    }
+
+    private MultivaluedMap<String, Object> headers() {
+        MultivaluedMap<String, Object> m = new MultivaluedHashMap<>();
+        JsonObject user = Json.createObjectBuilder()
+            .add("username", "ALICE")
+            .add("password", "qwerty")
+            .build();
+        JsonObject result = target
+            .path("login")
+            .request(MediaType.APPLICATION_JSON)
+            .post(Entity.json(user), JsonObject.class);
+        String token = result.getString("token");
+        m.add("Authorization", "Bearer " + token);
+        return m;
     }
 
 }
