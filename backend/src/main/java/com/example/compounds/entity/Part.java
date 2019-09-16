@@ -9,6 +9,7 @@ import com.example.elements.entity.Element;
 public class Part {
 
     @Id
+    @GeneratedValue
     private int id;
     private Element element;
     private int count;
