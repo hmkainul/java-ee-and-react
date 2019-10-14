@@ -19,7 +19,7 @@ public class CompoundsResource {
 
     @GET
     @Path("{id}")
-    public Response get(@PathParam("id") int id) {
+    public Response get(@PathParam("id") long id) {
         Compound result = service.get(id);
         return Response
             .ok(result)
@@ -44,7 +44,7 @@ public class CompoundsResource {
 
     @DELETE
     @Path("{id}")
-    public Response delete(@PathParam("id") int id) {
+    public Response delete(@PathParam("id") long id) {
         service.delete(id);
         return Response
             .noContent()

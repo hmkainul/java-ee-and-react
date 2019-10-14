@@ -12,7 +12,7 @@ public class Compounds {
     @PersistenceContext
     EntityManager em;
 
-    public Compound get(int id) {
+    public Compound get(long id) {
         return em.find(Compound.class, id);
     }
 
@@ -25,7 +25,7 @@ public class Compounds {
         return em.merge(c);
     }
 
-    public boolean delete(int id) {
+    public boolean delete(long id) {
         Compound compound = get(id);
         if (compound == null)
             return false;
