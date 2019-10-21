@@ -125,3 +125,19 @@ nav .active {
   text-decoration: underline;
   text-underline-position: under;
 }
+
+/* elements: */
+
+button.element {
+  border-radius: 0px;
+  height: 64px;
+  margin: 4px;
+  width: 64px;
+}
+
+button.plus {
+  background-color: #38bec9;
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+}
