@@ -141,3 +141,20 @@ button.plus {
   height: 48px;
   width: 48px;
 }
+
+/* new compound: */
+
+div.compound {
+  min-height: 192px;
+  text-align: center;
+}
+
+p.big {
+  margin-bottom: 24px;
+  margin-top: 8px;
+}
+
+p.big,
+p.big * {
+  font-size: 48px;
+}

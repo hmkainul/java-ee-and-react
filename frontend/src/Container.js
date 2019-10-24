@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { addToCompound } from "./addToCompound";
 import { get, remove, save } from "./service";
+import { Compound } from "./Compound";
+import { Compounds } from "./Compounds";
 import { Element } from "./Element";
 import { Elements } from "./Elements";
+import { NewCompound } from "./NewCompound";
 
 export function Container({ setError, location, setLocation, token }) {
+  const [compound, setCompound] = useState();
+  const [compounds, setCompounds] = useState([]);
   const [element, setElement] = useState({});
   const [elements, setElements] = useState([]);
+  const [newCompound, setNewCompound] = useState({});
   const [previous, setPrevious] = useState();
 
+  const COMPOUND = "compound";
+  const COMPOUNDS = "compounds";
   const ELEMENT = "element";
   const ELEMENTS = "elements";
 
   useEffect(() => {
     get(token, ELEMENTS, setElements, setError);
+    get(token, COMPOUNDS, setCompounds, setError);
   }, [token, setError]);
 
   function navigate(to) {
@@ -55,15 +65,66 @@ export function Container({ setError, location, setLocation, token }) {
     );
   }
 
+  function saveCompound(compound) {
+    save(
+      token,
+      COMPOUNDS,
+      result => {
+        result.exist = true;
+        setNewCompound(result);
+        setCompounds(compounds.concat(result));
+      },
+      setError,
+      compound
+    );
+  }
+
+  function removeCompound(id) {
+    remove(
+      token,
+      COMPOUNDS,
+      () => {
+        setCompounds(compounds.filter(c => c.id !== id));
+        setNewCompound({});
+        back();
+      },
+      setError,
+      id
+    );
+  }
+
   function select(element) {
-    setElement(element);
-    navigate(ELEMENT);
+    if (!element.exist) {
+      setElement(element);
+      navigate(ELEMENT);
+      return;
+    }
+    setNewCompound(addToCompound(newCompound, element, compounds));
+  }
+
+  function editCompound() {
+    if (newCompound.single) {
+      setElement(newCompound.parts[0].element);
+      navigate(ELEMENT);
+    } else if (newCompound.exist) {
+      setCompound(newCompound);
+      navigate(COMPOUND);
+    } else {
+      saveCompound(newCompound);
+    }
   }
 
   return (
     <>
       {location === ELEMENTS && (
-        <Elements elements={elements} select={select} />
+        <div>
+          <NewCompound
+            clear={() => setNewCompound({})}
+            compound={newCompound}
+            select={editCompound}
+          />
+          <Elements elements={elements} select={select} />
+        </div>
       )}
       {location === ELEMENT && (
         <Element
@@ -72,6 +133,26 @@ export function Container({ setError, location, setLocation, token }) {
           setElement={setElement}
           remove={removeElement}
           save={saveElement}
+        />
+      )}
+      {location === COMPOUNDS && (
+        <Compounds
+          compounds={compounds}
+          select={compound => {
+            setCompound(compound);
+            navigate(COMPOUND);
+          }}
+        />
+      )}
+      {location === COMPOUND && (
+        <Compound
+          close={back}
+          compound={compound}
+          copy={() => {
+            setNewCompound(compound);
+            navigate(ELEMENTS);
+          }}
+          remove={removeCompound}
         />
       )}
     </>
