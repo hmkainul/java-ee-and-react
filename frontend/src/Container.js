@@ -6,6 +6,7 @@ import { Compounds } from "./Compounds";
 import { Element } from "./Element";
 import { Elements } from "./Elements";
 import { NewCompound } from "./NewCompound";
+import { PeriodicTable } from "./PeriodicTable";
 
 export function Container({ setError, location, setLocation, token }) {
   const [compound, setCompound] = useState();
@@ -153,6 +154,16 @@ export function Container({ setError, location, setLocation, token }) {
             navigate(ELEMENTS);
           }}
           remove={removeCompound}
+        />
+      )}
+      {location === "table" && (
+        <PeriodicTable
+          elements={elements}
+          select={element => {
+            element.exist = true;
+            setElement(element);
+            navigate("element");
+          }}
         />
       )}
     </>
